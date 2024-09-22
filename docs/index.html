@@ -1,0 +1,126 @@
+<!--
+  ttt Version 0.1.0
+  https://github.com/taidalog/ttt
+  Copyright (c) 2024 taidalog
+  This software is licensed under the MIT License.
+  https://github.com/taidalog/ttt/blob/main/LICENSE
+-->
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ttt: text to timeline.">
+    <meta name="color-scheme" content="light dark">
+    <title>ttt</title>
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="style.css?v=0.1.0">
+    <!-- script -->
+    <script type="text/javascript" src="bundle.js?v=0.1.0"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&text= !&quot;$%()*+,-./0123456789:=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body>
+    <header>
+        <div>
+            <h1 translate="no">ttt</h1>
+        </div>
+        <div>
+            <span id="helpButton" class="material-symbols-outlined help-button" translate="no">
+                help
+            </span>
+        </div>
+    </header>
+    <main>
+        <label for="textInput">
+            <h2>input:</h2>
+        </label>
+        <textarea id="textInput" autocomplete="off"></textarea>
+
+        <output id="validationArea" class="validation-area"></output>
+
+        <label for="outputArea">
+            <h2>output:</h2>
+        </label>
+        <output id="outputArea"></output>
+
+        <!-- help window -->
+        <div id="helpWindow" class="help-window">
+            <div class="help-close-outer">
+                <span id="helpClose" class="material-symbols-outlined help-close" translate="no">
+                    close
+                </span>
+            </div>
+            <p><span translate="no">ttt: text to timeline.</span></p>
+            <p>
+                詳細は<a href="https://github.com/taidalog/ttt/blob/main/README.ja.md" target="_blank">README</a>を読んでください。
+            </p>
+        </div>
+
+        <!-- information policy window -->
+        <div id="informationPolicyWindow" class="help-window">
+            <div class="help-close-outer">
+                <span id="informationPolicyClose" class="material-symbols-outlined help-close" translate="no">
+                    close
+                </span>
+            </div>
+            <h2>情報の外部送信について</h2>
+            <p>アクセス状況の分析のため、当サイトでは「Google アナリティクス」というサービスを利用しています。それに伴い、以下のような利用者のアクセス情報を外部へ送信しています。</p>
+            <h3>送信情報</h3>
+            <ul>
+                <li>閲覧したページの URL</li>
+                <li>閲覧したページのタイトル</li>
+                <li>当サイトを閲覧した日時</li>
+                <li>当サイトを閲覧した際の大まかな位置情報</li>
+                <li>当サイトを閲覧した際の IP アドレス</li>
+                <li>当サイトを閲覧した際のインターネット端末およびインターネットブラウザの種類</li>
+            </ul>
+            <h3>送信先</h3>
+            <ul>
+                <li>Google LLC</li>
+            </ul>
+            <h3>利用目的</h3>
+            <p>当サイトへのアクセス状況の分析およびコンテンツの改善のために利用しています。当該情報は個人を特定するものではありません。Google アナリティクスについては以下のページを参照してください。
+            <ul>
+                <li><a href="https://marketingplatform.google.com/about/analytics/terms/jp/">Google アナリティクス利用規約</a></li>
+                <li><a href="https://policies.google.com/technologies/partner-sites">Google のサービスを使用するサイトやアプリから収集した情報の
+                        Google による使用</a></li>
+                <li><a
+                        href="https://support.google.com/analytics/answer/11593727?hl=ja&ref_topic=1008008&sjid=3916650995392926123-AP">[GA4]
+                        データ収集 - アナリティクス ヘルプ</a></li>
+            </ul>
+        </div>
+
+    </main>
+    <footer>
+        <div>
+            <div class="footer-item" translate="no"><small>&copy; 2024 <a
+                        href="https://taidalog.github.io/">taidalog</a></small></div>
+            <div class="footer-item" translate="no"><small>
+                    <a href="https://github.com/taidalog/ttt/releases">Version 0.1.0</a></small></div>
+            <div class="footer-item"><small><a href="https://github.com/taidalog/ttt/blob/main/README.ja.md"
+                        target="_blank">README</a></small></div>
+            <div class="footer-item"><small><a href="#" id="informationPolicyLink">情報の外部送信について</a></small></div>
+            <div class="footer-item"><small><a href="https://odaibako.net/u/taidalog">お題箱</a></small></div>
+            <div class="footer-item" translate="no"><small>
+                    <a href="https://github.com/taidalog/ttt">Repository on GitHub</a></small></div>
+        </div>
+        <div>
+            <div class="footer-item"><small>Powered by <a id="footerFSharp" href="https://fsharp.org/"
+                        translate="no">F#</a>
+                    and <a id="footerFable" href="https://fable.io" translate="no">Fable</a>.
+                    Thank you!</small></div>
+        </div>
+    </footer>
+</body>
+
+</html>

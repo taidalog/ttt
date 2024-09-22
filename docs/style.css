@@ -1,0 +1,218 @@
+/*
+  ttt Version 0.1.0
+  https://github.com/taidalog/ttt
+  Copyright (c) 2024 taidalog
+  This software is licensed under the MIT License.
+  https://github.com/taidalog/ttt/blob/main/LICENSE
+*/
+:root {
+    --background-color: #ffffff;
+    --text-color: #444444;
+    /* 9.74, AAA */
+    --h1-color: #65a2ac;
+    /* 2.87, ! */
+    --h2-color: #778899;
+    /* 3.64, AA */
+    --pale-color: #888888;
+    /* 3.54, ! */
+    --a-color: #447f88;
+    /* 4.53, AA */
+    --a-visited-color: #754488;
+    /* 7.15, AAA */
+    --help-window-background-color: var(--background-color);
+    --help-window-box-shadow: #999999;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #142022;
+        --text-color: #ffffff;
+        /* 16.67, AAA */
+        --h1-color: #65a2ac;
+        /* 5.81, AAA */
+        --h2-color: #a6bed6;
+        /* 8.70, AAA */
+        --pale-color: #888888;
+        /* 4.70, AA */
+        --a-color: #58a5b0;
+        /* 5.89, AA */
+        --a-visited-color: #bb6cd9;
+        /* 4.97, AA */
+    }
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+html {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 400;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    color: var(--h1-color);
+    font-family: 'Zen Kurenaido', sans-serif;
+    margin: 0;
+}
+
+h2 {
+    margin: 0;
+    color: var(--h2-color);
+}
+
+header,
+main,
+footer {
+    width: 90%;
+    margin: 0 auto;
+}
+
+header {
+    width: 90%;
+    height: 50px;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+header>div {
+    margin-top: auto;
+}
+
+main {
+    padding: 10px 0;
+    flex-grow: 1;
+}
+
+main>textarea {
+    font-size: 1.25rem;
+    color: var(--text-color);
+    width: 99%;
+    padding: 6px;
+}
+
+@media (max-width: 799px) {
+    main>textarea {
+        width: 95%;
+    }
+}
+
+output {
+    margin-top: 0.5rem;
+    display: block;
+    text-align: center;
+}
+
+output.validation-area {
+    text-align: left;
+}
+
+footer {
+    color: var(--pale-color);
+    width: 90%;
+    margin: 20px auto;
+    margin-top: 40px;
+}
+
+footer>div {
+    margin: 10px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+footer a {
+    color: var(--a-color);
+    text-decoration: none;
+}
+
+footer a:visited {
+    color: var(--a-visited-color);
+}
+
+@media (max-width: 799px) {
+    footer {
+        margin-top: 20px;
+    }
+
+    footer>div {
+        width: 100%;
+        margin: 0 auto;
+        flex-direction: column;
+    }
+
+    footer div.footer-item {
+        margin: 0 auto;
+    }
+}
+
+/*
+    help window
+    information policy window
+*/
+span.help-button,
+span.help-close {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+div.help-close-outer {
+    width: 100%;
+    text-align: right;
+}
+
+div.help-window {
+    display: none;
+}
+
+div.help-window.active {
+    display: block;
+    background-color: var(--help-window-background-color);
+    color: var(--text-color);
+    opacity: 0.95;
+    width: fit-content;
+    height: fit-content;
+    max-width: 80%;
+    max-height: 60%;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    padding: 0.5rem 2rem 2rem 2rem;
+    box-shadow: 0px 0px 5px 1px var(--help-window-box-shadow);
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+div.help-window a {
+    color: var(--a-color);
+}
+
+div.help-window a:visited {
+    color: var(--a-visited-color);
+}
+
+span.material-symbols-outlined:hover {
+    font-variation-settings:
+        'FILL' 1
+}
+
+span.material-symbols-outlined.help-close:hover {
+    color: var(--background-color);
+    background-color: var(--text-color);
+}
