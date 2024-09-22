@@ -10,6 +10,17 @@ open System
 open Xunit
 open Ttt.Types
 
+let ``Date'.fst 1`` () =
+    let expected = DateTime(2024, 9, 22)
+    let actual = Date'.Single(DateTime(2024, 9, 22)).fst
+    Assert.Equal(expected, actual)
+
+[<Fact>]
+let ``Date'.fst 2`` () =
+    let expected = DateTime(2024, 9, 22)
+    let actual = Date'.Dudation(DateTime(2024, 9, 22), DateTime(2025, 10, 3)).fst
+    Assert.Equal(expected, actual)
+
 [<Fact>]
 let ``Date' 1`` () =
     let expected = "9/22"

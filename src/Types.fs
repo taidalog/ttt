@@ -14,6 +14,11 @@ module Types =
         | Single of DateTime
         | Dudation of DateTime * DateTime
 
+        member this.fst: DateTime =
+            match this with
+            | Single x -> x
+            | Dudation(x, _) -> x
+
         override this.ToString() =
             match this with
             | Single x -> x.ToString("M/d")
