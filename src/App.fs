@@ -10,8 +10,81 @@ open Browser.Dom
 open Browser.Types
 open Fable.Core
 open Fable.Core.JsInterop
+open Fermata
+open Fermata.ParserCombinators.Parsers
+open Ttt.Parsing
 
 module App =
+    let main () =
+        let textInput = document.getElementById "textInput" :?> HTMLInputElement
+        let inputs = textInput.value |> String.split '\n'
+
+        let dates =
+            (yyyymmdd_yyyymmdd <|> yyyymmdd_mmdd <|> yyyymmdd_dd) (State(List.head inputs, 0))
+            |> function
+                | Ok((x, y), _) -> Some(x, y)
+                | Error _ -> None
+
+        match dates with
+        | None -> ()
+        | Some(date1, date2) ->
+            let days = (date2 - date1).TotalDays + 1.
+
+            let svg = document.createElementNS ("http://www.w3.org/2000/svg", "svg")
+            svg.setAttribute ("viewBox", $"0, 0, 1080, 1920")
+            svg.setAttribute ("width", $"1080px")
+            svg.setAttribute ("height", $"1920px")
+
+            let title = document.createElementNS ("http://www.w3.org/2000/svg", "title")
+            title.textContent <- "timeline"
+
+            let lineElement = document.createElementNS ("http://www.w3.org/2000/svg", "line")
+            lineElement.setAttribute ("x1", $"""40""")
+            lineElement.setAttribute ("y1", $"""40""")
+            lineElement.setAttribute ("x2", $"""40""")
+            lineElement.setAttribute ("y2", $"""1880""")
+            lineElement.setAttribute ("stroke", $"""#333333""")
+            lineElement.setAttribute ("stroke-width", $"""4""")
+            svg.appendChild lineElement |> ignore
+
+            let g = document.createElementNS ("http://www.w3.org/2000/svg", "g")
+
+            let textDate1 = document.createElementNS ("http://www.w3.org/2000/svg", "text")
+            textDate1.setAttribute ("x", $"""20""")
+            textDate1.setAttribute ("y", $"""20""")
+            textDate1.textContent <- $"""%s{date1.ToString("yyyy-MM-dd")}"""
+            g.appendChild textDate1 |> ignore
+
+            inputs
+            |> List.tail
+            |> List.map (fun x -> State(x, 0))
+            |> List.map line
+            |> List.map (fun x ->
+                match x with
+                | Ok((d, s), _) ->
+                    let text = document.createElementNS ("http://www.w3.org/2000/svg", "text")
+                    text.setAttribute ("x", $"""60""")
+                    text.setAttribute ("y", $"""%f{((d.fst - date1).TotalDays + 1.) / days * 1840. + 40.}""")
+                    text.textContent <- $"""%s{string d} %s{s}"""
+                    text
+                | Error _ ->
+                    let text = document.createElementNS ("http://www.w3.org/2000/svg", "text")
+                    text)
+            |> List.filter (fun x -> x.textContent <> "")
+            |> List.iter (fun x -> g.appendChild x |> ignore)
+
+            let textDate2 = document.createElementNS ("http://www.w3.org/2000/svg", "text")
+            textDate2.setAttribute ("x", $"""20""")
+            textDate2.setAttribute ("y", $"""1900""")
+            textDate2.textContent <- $"""%s{date2.ToString("yyyy-MM-dd")}"""
+            g.appendChild textDate2 |> ignore
+
+            svg.appendChild g |> ignore
+
+            let outputArea = document.getElementById "outputArea"
+            outputArea.innerHTML <- ""
+            outputArea.appendChild svg |> ignore
+
     let keyboardshortcut (e: KeyboardEvent) =
         match document.activeElement.id with
         | "textInput" ->
@@ -19,8 +92,7 @@ module App =
             | "Escape" -> (document.getElementById "textInput").blur ()
             | "Enter" ->
                 if e.ctrlKey then
-                    // creates a timelime
-                    ()
+                    main ()
             | _ -> ()
         | _ ->
             let helpWindow = document.getElementById "helpWindow"
