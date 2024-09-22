@@ -9,6 +9,14 @@ namespace Ttt
 open System
 
 module Types =
+    [<StructuredFormatDisplay("{DisplayText}")>]
     type Date' =
         | Single of DateTime
         | Dudation of DateTime * DateTime
+
+        override this.ToString() =
+            match this with
+            | Single x -> x.ToString("M/d")
+            | Dudation(x, y) -> $"""%s{x.ToString("M/d")}~%s{y.ToString("M/d")}"""
+
+        member this.DisplayText = this.ToString()
