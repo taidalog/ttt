@@ -191,3 +191,56 @@ let ``date' 4`` () =
     let expected = Ok(Date'.Single(DateTime(2024, 9, 22)), State("2024-09-22", 10))
     let actual = date' (State("2024-09-22", 0))
     Assert.Equal(expected, actual)
+
+[<Fact>]
+let ``remains 1`` () =
+    let expected = Ok("hey", State("hey", 3))
+    let actual = remains (State("hey", 0))
+    Assert.Equal(expected, actual)
+
+[<Fact>]
+let ``remains 2`` () =
+    let expected = Ok("", State("hey", 3))
+    let actual = remains (State("hey", 3))
+    Assert.Equal(expected, actual)
+
+[<Fact>]
+let ``remains 3`` () =
+    let expected = Ok("", State("", 0))
+    let actual = remains (State("", 0))
+    Assert.Equal(expected, actual)
+
+[<Fact>]
+let ``line 1`` () =
+    let expected =
+        Ok((Date'.Single(DateTime(2024, 9, 22)), "hey"), State("2024-09-22 hey", 14))
+
+    let actual = line (State("2024-09-22 hey", 0))
+    Assert.Equal(expected, actual)
+
+[<Fact>]
+let ``line 2`` () =
+    let expected =
+        Ok(
+            (Date'.Dudation(DateTime(2024, 9, 22), DateTime(2025, 10, 3)), "hey"),
+            State("2024-09-22/2025-10-03 hey", 25)
+        )
+
+    let actual = line (State("2024-09-22/2025-10-03 hey", 0))
+    Assert.Equal(expected, actual)
+
+[<Fact>]
+let ``line 3`` () =
+    let expected =
+        Ok((Date'.Dudation(DateTime(2024, 9, 22), DateTime(2024, 10, 3)), "hey"), State("2024-09-22/10-03 hey", 20))
+
+    let actual = line (State("2024-09-22/10-03 hey", 0))
+    Assert.Equal(expected, actual)
+
+[<Fact>]
+let ``line 4`` () =
+    let expected =
+        Ok((Date'.Dudation(DateTime(2024, 9, 22), DateTime(2024, 9, 3)), "hey"), State("2024-09-22/03 hey", 17))
+
+    let actual = line (State("2024-09-22/03 hey", 0))
+    Assert.Equal(expected, actual)

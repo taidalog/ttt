@@ -46,3 +46,12 @@ module Parsing =
     let single = map' Date'.Single yyyymmdd
 
     let date' = duration <|> single
+
+    let oneOrMore (p: Parser<'T>) =
+        map' (fun (x, xs) -> x :: xs) (p <&> many p)
+
+    let spaces = map' (List.map string >> String.concat "") (oneOrMore (char' ' '))
+
+    let remains = map' (List.map string >> String.concat "") (many any)
+
+    let line = date' <+&> spaces <&> remains
