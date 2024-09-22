@@ -8,6 +8,7 @@ namespace Ttt
 
 open System
 open Fermata.ParserCombinators.Parsers
+open Ttt.Types
 
 module Parsing =
     let digit =
@@ -38,3 +39,10 @@ module Parsing =
 
     let yyyymmdd_dd =
         map' (fun (x: DateTime, d) -> x, DateTime(x.Year, x.Month, d)) (yyyymmdd <+&> char' '/' <&> dd)
+
+    let duration =
+        map' Date'.Dudation (yyyymmdd_yyyymmdd <|> yyyymmdd_mmdd <|> yyyymmdd_dd)
+
+    let single = map' Date'.Single yyyymmdd
+
+    let date' = duration <|> single

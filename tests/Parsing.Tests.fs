@@ -10,6 +10,7 @@ open System
 open Xunit
 open Fermata.ParserCombinators.Parsers
 open Ttt.Parsing
+open Ttt.Types
 
 [<Fact>]
 let ``digit 1`` () =
@@ -129,4 +130,64 @@ let ``yyyymmdd_dd 1`` () =
         Ok((DateTime(2024, 9, 22), DateTime(2024, 9, 3)), State("2024-09-22/03", 13))
 
     let actual = yyyymmdd_dd (State("2024-09-22/03", 0))
+    Assert.Equal(expected, actual)
+
+[<Fact>]
+let ``duration 1`` () =
+    let expected =
+        Ok(Date'.Dudation(DateTime(2024, 9, 22), DateTime(2025, 10, 3)), State("2024-09-22/2025-10-03", 21))
+
+    let actual = duration (State("2024-09-22/2025-10-03", 0))
+    Assert.Equal(expected, actual)
+
+[<Fact>]
+let ``duration 2`` () =
+    let expected =
+        Ok(Date'.Dudation(DateTime(2024, 9, 22), DateTime(2024, 10, 3)), State("2024-09-22/10-03", 16))
+
+    let actual = duration (State("2024-09-22/10-03", 0))
+    Assert.Equal(expected, actual)
+
+[<Fact>]
+let ``duration 3`` () =
+    let expected =
+        Ok(Date'.Dudation(DateTime(2024, 9, 22), DateTime(2024, 9, 3)), State("2024-09-22/03", 13))
+
+    let actual = duration (State("2024-09-22/03", 0))
+    Assert.Equal(expected, actual)
+
+[<Fact>]
+let ``single 1`` () =
+    let expected = Ok(Date'.Single(DateTime(2024, 9, 22)), State("2024-09-22", 10))
+    let actual = single (State("2024-09-22", 0))
+    Assert.Equal(expected, actual)
+
+[<Fact>]
+let ``date' 1`` () =
+    let expected =
+        Ok(Date'.Dudation(DateTime(2024, 9, 22), DateTime(2025, 10, 3)), State("2024-09-22/2025-10-03", 21))
+
+    let actual = date' (State("2024-09-22/2025-10-03", 0))
+    Assert.Equal(expected, actual)
+
+[<Fact>]
+let ``date' 2`` () =
+    let expected =
+        Ok(Date'.Dudation(DateTime(2024, 9, 22), DateTime(2024, 10, 3)), State("2024-09-22/10-03", 16))
+
+    let actual = date' (State("2024-09-22/10-03", 0))
+    Assert.Equal(expected, actual)
+
+[<Fact>]
+let ``date' 3`` () =
+    let expected =
+        Ok(Date'.Dudation(DateTime(2024, 9, 22), DateTime(2024, 9, 3)), State("2024-09-22/03", 13))
+
+    let actual = date' (State("2024-09-22/03", 0))
+    Assert.Equal(expected, actual)
+
+[<Fact>]
+let ``date' 4`` () =
+    let expected = Ok(Date'.Single(DateTime(2024, 9, 22)), State("2024-09-22", 10))
+    let actual = date' (State("2024-09-22", 0))
     Assert.Equal(expected, actual)
