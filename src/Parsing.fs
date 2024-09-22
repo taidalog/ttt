@@ -11,7 +11,7 @@ open Fermata.ParserCombinators.Parsers
 open Ttt.Types
 
 module Parsing =
-    let digit =
+    let digit: Parser<char> =
         char' '0'
         <|> char' '1'
         <|> char' '2'
@@ -23,35 +23,42 @@ module Parsing =
         <|> char' '8'
         <|> char' '9'
 
-    let yyyy = map' (List.map string >> List.fold (+) "" >> int) (repeat 4 digit)
-    let mm = map' (List.map string >> List.fold (+) "" >> int) (repeat 2 digit)
-    let dd = map' (List.map string >> List.fold (+) "" >> int) (repeat 2 digit)
+    let yyyy: Parser<int> =
+        map' (List.map string >> List.fold (+) "" >> int) (repeat 4 digit)
 
-    let yyyymmdd =
+    let mm: Parser<int> =
+        map' (List.map string >> List.fold (+) "" >> int) (repeat 2 digit)
+
+    let dd: Parser<int> =
+        map' (List.map string >> List.fold (+) "" >> int) (repeat 2 digit)
+
+    let yyyymmdd: Parser<DateTime> =
         map' (fun ((y: int, m), d) -> DateTime(y, m, d)) (yyyy <+&> char' '-' <&> mm <+&> char' '-' <&> dd)
 
-    let yyyymmdd_yyyymmdd = map' id (yyyymmdd <+&> char' '/' <&> yyyymmdd)
+    let yyyymmdd_yyyymmdd: Parser<DateTime * DateTime> =
+        map' id (yyyymmdd <+&> char' '/' <&> yyyymmdd)
 
-    let yyyymmdd_mmdd =
+    let yyyymmdd_mmdd: Parser<DateTime * DateTime> =
         map'
             (fun ((x: DateTime, m), d) -> x, DateTime(x.Year, m, d))
             (yyyymmdd <+&> char' '/' <&> mm <+&> char' '-' <&> dd)
 
-    let yyyymmdd_dd =
+    let yyyymmdd_dd: Parser<DateTime * DateTime> =
         map' (fun (x: DateTime, d) -> x, DateTime(x.Year, x.Month, d)) (yyyymmdd <+&> char' '/' <&> dd)
 
-    let duration =
+    let duration: Parser<Date'> =
         map' Date'.Dudation (yyyymmdd_yyyymmdd <|> yyyymmdd_mmdd <|> yyyymmdd_dd)
 
-    let single = map' Date'.Single yyyymmdd
+    let single: Parser<Date'> = map' Date'.Single yyyymmdd
 
-    let date' = duration <|> single
+    let date': Parser<Date'> = duration <|> single
 
-    let oneOrMore (p: Parser<'T>) =
+    let oneOrMore (p: Parser<'T>) : Parser<'T list> =
         map' (fun (x, xs) -> x :: xs) (p <&> many p)
 
-    let spaces = map' (List.map string >> String.concat "") (oneOrMore (char' ' '))
+    let spaces: Parser<string> =
+        map' (List.map string >> String.concat "") (oneOrMore (char' ' '))
 
-    let remains = map' (List.map string >> String.concat "") (many any)
+    let remains: Parser<string> = map' (List.map string >> String.concat "") (many any)
 
-    let line = date' <+&> spaces <&> remains
+    let line: Parser<Date' * string> = date' <+&> spaces <&> remains
