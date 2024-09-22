@@ -31,6 +31,7 @@ module App =
             let days = (date2 - date1).TotalDays + 1.
 
             let svg = document.createElementNS ("http://www.w3.org/2000/svg", "svg")
+            svg.setAttribute ("xmlns", "http://www.w3.org/2000/svg")
             svg.setAttribute ("viewBox", $"0, 0, 1080, 1920")
             svg.setAttribute ("width", $"1080px")
             svg.setAttribute ("height", $"1920px")
@@ -84,6 +85,20 @@ module App =
             let outputArea = document.getElementById "outputArea"
             outputArea.innerHTML <- ""
             outputArea.appendChild svg |> ignore
+
+    let saveAsSvg _ =
+        let svgUrl =
+            (document.getElementById "outputArea").innerHTML
+            |> fun x -> Browser.Blob.Blob.Create([| x |])
+            |> fun x -> Browser.Url.URL.createObjectURL x
+
+        let a = document.createElement ("a") :?> HTMLAnchorElement
+        a.href <- svgUrl
+        a.setAttribute ("download", "timeline.svg")
+        document.body.appendChild a |> ignore
+        a.click ()
+        document.body.removeChild a |> ignore
+        Browser.Url.URL.revokeObjectURL (svgUrl)
 
     let keyboardshortcut (e: KeyboardEvent) =
         match document.activeElement.id with
@@ -143,5 +158,8 @@ module App =
                 fun _ -> (document.getElementById "informationPolicyWindow").classList.remove "active"
 
             // keyboard shortcut
-            document.onkeydown <- fun (e: KeyboardEvent) -> keyboardshortcut e)
+            document.onkeydown <- fun (e: KeyboardEvent) -> keyboardshortcut e
+
+            // downloading
+            (document.getElementById "downloadButton").onclick <- fun e -> saveAsSvg e)
     )
