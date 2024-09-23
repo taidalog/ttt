@@ -46,10 +46,28 @@ module Parsing =
     let yyyymmdd_dd: Parser<DateTime * DateTime> =
         map' (fun (x: DateTime, d) -> x, DateTime(x.Year, x.Month, d)) (yyyymmdd <+&> char' '/' <&> dd)
 
-    let duration: Parser<Date'> =
-        map' Date'.Dudation (yyyymmdd_yyyymmdd <|> yyyymmdd_mmdd <|> yyyymmdd_dd)
+    let pos' (parser: Parser<'T>) : Parser<unit> =
+        fun (State(x, p)) ->
+            match parser (State(x, p)) with
+            | Ok _ -> Ok((), State(x, p))
+            | Error _ -> Error("Parsing failed.", State(x, p))
 
-    let single: Parser<Date'> = map' Date'.Single yyyymmdd
+    let neg' (parser: Parser<'T>) : Parser<unit> =
+        fun (State(x, p)) ->
+            match parser (State(x, p)) with
+            | Ok _ -> Error("Parsing failed.", State(x, p))
+            | Error _ -> Ok((), State(x, p))
+
+    let duration: Parser<Date'> =
+        map'
+            Date'.Dudation
+            ((yyyymmdd_yyyymmdd <+&> (neg' (digit <|> char' '-' <|> char' '/') <|> pos' end'))
+             <|> (yyyymmdd_mmdd <+&> (neg' (digit <|> char' '-' <|> char' '/') <|> pos' end'))
+             <|> (yyyymmdd_dd <+&> (neg' (digit <|> char' '-' <|> char' '/') <|> pos' end')))
+
+    let single: Parser<Date'> =
+        map' Date'.Single yyyymmdd
+        <+&> (neg' (digit <|> char' '-' <|> char' '/') <|> pos' end')
 
     let date': Parser<Date'> = duration <|> single
 

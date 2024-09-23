@@ -157,9 +157,35 @@ let ``duration 3`` () =
     Assert.Equal(expected, actual)
 
 [<Fact>]
+let ``duration 4`` () =
+    let expected =
+        Ok(Date'.Dudation(DateTime(2024, 9, 22), DateTime(2024, 9, 3)), State("2024-09-22/03 ", 13))
+
+    let actual = duration (State("2024-09-22/03 ", 0))
+    Assert.Equal(expected, actual)
+
+[<Fact>]
+let ``duration 5`` () =
+    let expected = Error("Parsing failed.", State("2024-09-22/2025-10", 0))
+    let actual = duration (State("2024-09-22/2025-10", 0))
+    Assert.Equal(expected, actual)
+
+[<Fact>]
 let ``single 1`` () =
     let expected = Ok(Date'.Single(DateTime(2024, 9, 22)), State("2024-09-22", 10))
     let actual = single (State("2024-09-22", 0))
+    Assert.Equal(expected, actual)
+
+[<Fact>]
+let ``single 2`` () =
+    let expected = Ok(Date'.Single(DateTime(2024, 9, 22)), State("2024-09-22 ", 10))
+    let actual = single (State("2024-09-22 ", 0))
+    Assert.Equal(expected, actual)
+
+[<Fact>]
+let ``single 3`` () =
+    let expected = Error("Parsing failed.", State("2024-09-22/2025", 0))
+    let actual = single (State("2024-09-22/2025", 0))
     Assert.Equal(expected, actual)
 
 [<Fact>]
