@@ -183,17 +183,23 @@ module App =
                             | Date'.Dudation _ ->
                                 let lines = inputs |> List.tail |> List.map (fun x -> State(x, 0)) |> List.map line
 
-                                if
-                                    List.forall
-                                        (function
-                                        | Ok _ -> true
-                                        | Error _ -> false)
-                                        lines
-                                then
+                                let isOk' x =
+                                    match x with
+                                    | Ok _ -> true
+                                    | Error _ -> false
+
+                                if List.forall isOk' lines then
+                                    validationArea.innerText <- ""
                                     main ()
                                 else
-                                    printfn "1行目が正しくありません。"
-                                    validationArea.innerText <- "1行目が正しくありません。"
+                                    lines
+                                    |> List.indexed
+                                    |> List.filter (fun (_, x) -> x |> isOk' |> not)
+                                    |> List.map (fun (i, _) -> $"%d{i + 1}行目が正しくありません。")
+                                    |> List.iter (fun x ->
+                                        printfn "%s" x
+                                        validationArea.innerText <- x)
+
 
             // keyboard shortcut
             document.onkeydown <- fun (e: KeyboardEvent) -> keyboardshortcut e
