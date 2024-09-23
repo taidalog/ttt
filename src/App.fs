@@ -195,7 +195,7 @@ module App =
                                     lines
                                     |> List.indexed
                                     |> List.filter (fun (_, x) -> x |> isOk' |> not)
-                                    |> List.map (fun (i, _) -> $"%d{i + 1}行目が正しくありません。")
+                                    |> List.map (fun (i, _) -> $"%d{i + 2}行目が正しくありません。")
                                     |> List.iter (fun x ->
                                         printfn "%s" x
                                         validationArea.innerText <- x)
