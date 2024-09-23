@@ -32,6 +32,7 @@ module App =
             let days = (date2 - date1).TotalDays + 1.
 
             let svg = document.createElementNS ("http://www.w3.org/2000/svg", "svg")
+            svg.id <- "timelineSvg"
             svg.setAttribute ("xmlns", "http://www.w3.org/2000/svg")
             svg.setAttribute ("viewBox", $"0, 0, 1080, 1920")
             svg.setAttribute ("width", $"1080px")
@@ -39,6 +40,15 @@ module App =
 
             let title = document.createElementNS ("http://www.w3.org/2000/svg", "title")
             title.textContent <- "timeline"
+
+            let rect = document.createElementNS ("http://www.w3.org/2000/svg", "rect")
+            rect.setAttribute ("x", "0")
+            rect.setAttribute ("y", "0")
+            rect.setAttribute ("width", "1080")
+            rect.setAttribute ("height", "1920")
+            rect.setAttribute ("fill", "#ffffff")
+            rect.setAttribute ("opacity", "1")
+            svg.appendChild rect |> ignore
 
             let lineElement = document.createElementNS ("http://www.w3.org/2000/svg", "line")
             lineElement.setAttribute ("x1", $"""40""")
@@ -50,6 +60,7 @@ module App =
             svg.appendChild lineElement |> ignore
 
             let g = document.createElementNS ("http://www.w3.org/2000/svg", "g")
+            g.setAttribute ("fill", "#333333")
 
             let textDate1 = document.createElementNS ("http://www.w3.org/2000/svg", "text")
             textDate1.setAttribute ("x", $"""20""")
@@ -100,6 +111,42 @@ module App =
         a.click ()
         document.body.removeChild a |> ignore
         Browser.Url.URL.revokeObjectURL (svgUrl)
+
+    let saveAsPng () =
+        let svgUrl =
+            let opt = createObj [ "type", "image/svg+xml;charset='utf-8'" ] :?> BlobPropertyBag
+
+            (document.getElementById "outputArea").innerHTML
+            |> fun x -> Browser.Blob.Blob.Create([| x |], opt)
+            |> fun x -> Browser.Url.URL.createObjectURL x
+
+        let img = document.createElement ("img") :?> HTMLImageElement
+
+        img.addEventListener (
+            "load",
+            fun _ ->
+                let svgNode = document.getElementById "timelineSvg"
+                let cnv = document.createElement ("canvas") :?> HTMLCanvasElement
+                let width = float (svgNode.getAttribute "width" |> String.replace "px" "")
+                let height = float (svgNode.getAttribute "height" |> String.replace "px" "")
+                cnv.width <- width
+                cnv.height <- height
+
+                let ctx = cnv.getContext_2d "2d"
+                ctx.drawImage (U3.Case1 img, 0, 0, width, height)
+                let imgUrl = cnv.toDataURL "image/png"
+
+                let a = document.createElement ("a") :?> HTMLAnchorElement
+                a.href <- imgUrl
+                a.setAttribute ("download", "timeline.svg")
+                document.body.appendChild a |> ignore
+                a.click ()
+                document.body.removeChild a |> ignore
+                Browser.Url.URL.revokeObjectURL (svgUrl)
+                Browser.Url.URL.revokeObjectURL (imgUrl)
+        )
+
+        img.setAttribute ("src", svgUrl)
 
     let keyboardshortcut (e: KeyboardEvent) =
         match document.activeElement.id with
@@ -205,5 +252,5 @@ module App =
             document.onkeydown <- fun (e: KeyboardEvent) -> keyboardshortcut e
 
             // downloading
-            (document.getElementById "downloadButton").onclick <- fun e -> saveAsSvg e)
+            (document.getElementById "downloadButton").onclick <- fun _ -> saveAsPng ())
     )
