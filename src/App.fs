@@ -13,6 +13,7 @@ open Fable.Core.JsInterop
 open Fermata
 open Fermata.ParserCombinators.Parsers
 open Ttt.Parsing
+open Ttt.Types
 
 module App =
     let main () =
@@ -156,6 +157,43 @@ module App =
 
             (document.getElementById "informationPolicyClose").onclick <-
                 fun _ -> (document.getElementById "informationPolicyWindow").classList.remove "active"
+
+            // real-time validation and preview
+            let textInput = document.getElementById "textInput" :?> HTMLInputElement
+
+            textInput.oninput <-
+                fun _ ->
+                    let validationArea = document.getElementById "validationArea"
+
+                    if String.length textInput.value = 0 then
+                        validationArea.innerText <- ""
+                    else
+                        let inputs = textInput.value |> String.split '\n'
+                        let duration' = List.head inputs |> fun x -> State(x, 0) |> duration
+
+                        match duration' with
+                        | Error _ ->
+                            printfn "1行目が正しくありません。"
+                            validationArea.innerText <- "1行目が正しくありません。"
+                        | Ok(d, _) ->
+                            match d with
+                            | Date'.Single _ ->
+                                printfn "1行目が正しくありません。"
+                                validationArea.innerText <- "1行目が正しくありません。"
+                            | Date'.Dudation _ ->
+                                let lines = inputs |> List.tail |> List.map (fun x -> State(x, 0)) |> List.map line
+
+                                if
+                                    List.forall
+                                        (function
+                                        | Ok _ -> true
+                                        | Error _ -> false)
+                                        lines
+                                then
+                                    main ()
+                                else
+                                    printfn "1行目が正しくありません。"
+                                    validationArea.innerText <- "1行目が正しくありません。"
 
             // keyboard shortcut
             document.onkeydown <- fun (e: KeyboardEvent) -> keyboardshortcut e
