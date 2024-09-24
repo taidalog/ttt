@@ -99,17 +99,27 @@ main {
     column-gap: 20px;
 }
 
+@media (max-width: 799px) {
+    main {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+        row-gap: 20px;
+    }
+}
+
 textarea {
     font-size: 1.25rem;
     color: var(--text-color);
-    width: 99%;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
     padding: 6px;
 }
 
-@media (max-width: 799px) {
-    textarea {
-        width: 95%;
-    }
+main>section.item1 {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
 }
 
 output {
