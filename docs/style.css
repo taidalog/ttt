@@ -94,9 +94,12 @@ header>div {
 main {
     padding: 10px 0;
     flex-grow: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
 }
 
-main>textarea {
+textarea {
     font-size: 1.25rem;
     color: var(--text-color);
     width: 99%;
@@ -104,7 +107,7 @@ main>textarea {
 }
 
 @media (max-width: 799px) {
-    main>textarea {
+    textarea {
         width: 95%;
     }
 }

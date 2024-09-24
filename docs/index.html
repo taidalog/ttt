@@ -41,18 +41,21 @@
         </div>
     </header>
     <main>
-        <label for="textInput">
-            <h2>input:</h2>
-        </label>
-        <textarea id="textInput" autocomplete="off"></textarea>
+        <section>
+            <label for="textInput">
+                <h2>input:</h2>
+            </label>
+            <textarea id="textInput" autocomplete="off"></textarea>
+            <output id="validationArea" class="validation-area"></output>
+        </section>
 
-        <output id="validationArea" class="validation-area"></output>
-
-        <label for="outputArea">
-            <h2>output:</h2>
-        </label>
-        <output id="outputArea"></output>
-        <button id="downloadButton">ダウンロード</button>
+        <section>
+            <label for="outputArea">
+                <h2>output:</h2>
+            </label>
+            <output id="outputArea"></output>
+            <button id="downloadButton">ダウンロード</button>
+        </section>
 
         <!-- help window -->
         <div id="helpWindow" class="help-window">
