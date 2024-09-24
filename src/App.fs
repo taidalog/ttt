@@ -31,12 +31,14 @@ module App =
         | Some(date1, date2) ->
             let days = (date2 - date1).TotalDays + 1.
 
+            let textInput = document.getElementById "textInput"
+
             let svg = document.createElementNS ("http://www.w3.org/2000/svg", "svg")
             svg.id <- "timelineSvg"
             svg.setAttribute ("xmlns", "http://www.w3.org/2000/svg")
             svg.setAttribute ("viewBox", $"0, 0, 1080, 1920")
-            svg.setAttribute ("width", $"%f{680. / 1080. * 1080.}px")
-            svg.setAttribute ("height", $"%f{680. / 1080. * 1920.}px")
+            svg.setAttribute ("width", $"%f{textInput.clientWidth / 1080. * 1080.}px")
+            svg.setAttribute ("height", $"%f{textInput.clientWidth / 1080. * 1920.}px")
 
             let title = document.createElementNS ("http://www.w3.org/2000/svg", "title")
             title.textContent <- "timeline"
