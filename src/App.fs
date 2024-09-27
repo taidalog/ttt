@@ -140,7 +140,7 @@ module App =
 
                 let a = document.createElement ("a") :?> HTMLAnchorElement
                 a.href <- imgUrl
-                a.setAttribute ("download", "timeline.svg")
+                a.setAttribute ("download", "timeline.png")
                 document.body.appendChild a |> ignore
                 a.click ()
                 document.body.removeChild a |> ignore
