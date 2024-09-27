@@ -6,19 +6,20 @@ ttt: text to timeline.
 
 ## Synopsis
 
-- A text-to-timeline convertor.
+- A text-to-timeline convertor. You can just input your schedules to get a timeline image.
 
 ## Usage
 
 1. Visit [ttt](https://taidalog.github.io/ttt/).
-1. Type or paste your timeline text to the input area.
+1. Input your schedules to the input area. (See the example below.)
 1. Your timeline image will be generated.
 1. Cliick the "Download" button to save the generated image.
 
-## Timeline text format
+## Schedule format
 
 ```
 YYYY-MM-DD/YYYY-MM-DD
+YYYY-MM-DD XXXX
 YYYY-MM-DD XXXX
 ...
 ```
@@ -28,7 +29,7 @@ where,
 - `YYYY-MM-DD` represents a date.
 - `XXXX` represents a note for the date.
 - The first line has to include two dates, the first day and the last day of the duration, separated with a "/".
-- From the second line, each line has to include a date and a note for the day, separated with a space.
+- From the second line, each line has to include a date and a note for a schedule, separated with a space.
 
 ## Example
 
@@ -45,7 +46,7 @@ where,
 2025-03-31 Mari's birthday
 ```
 
-The timeline text above will be converted into the timeline image below:
+The text above will be converted into the timeline image below:
 
 ![The output](https://raw.githubusercontent.com/taidalog/ttt/main/docs/image/timeline.en.png)
 
@@ -64,7 +65,7 @@ The timeline text above will be converted into the timeline image below:
 
 ## Known Issue
 
--
+- Lines overlap on the output if the time interval between those schedules are too short.
 
 ## Release Notes
 
