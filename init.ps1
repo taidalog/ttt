@@ -13,7 +13,8 @@ dotnet add .\tests\tests.fsproj reference .\src\App.fsproj
 # Edit `.gitignore`
 #     Add Fable gererated files.
 npm init -y
-npm install -D vite
+# Edit package.json
+npm install --save-dev vite
 New-Item -Name vite.config.ts -ItemType File
 # Edit vite.config.ts
 #     Add `base: '/<REPO>/'`
@@ -23,5 +24,4 @@ New-Item -Name index.html -ItemType File
 New-Item -Name style.css -ItemType File
 # `dotnet fable` after cd .\src\
 # Edit index.html
-# Edit package.json
 # npm run build #at root, for `dotnet fable .\src\App.fsproj --run npx vite build`
