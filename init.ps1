@@ -25,6 +25,7 @@ New-Item -Name vite.config.ts -ItemType File
 #     Add `server.port` option.
 New-Item -Name index.html -ItemType File
 New-Item -Name style.css -ItemType File
+New-Item -Name image -ItemType Directory
 # `dotnet fable` after cd .\src\
 # Edit index.html
 # npm run build #at root, for `dotnet fable .\src\App.fsproj --run npx vite build`
