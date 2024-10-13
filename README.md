@@ -1,6 +1,6 @@
 # ttt
 
-Version 0.1.0
+Version 0.2.0
 
 ttt: text to timeline.
 
@@ -48,7 +48,7 @@ where,
 
 The text above will be converted into the timeline image below:
 
-![The output](https://raw.githubusercontent.com/taidalog/ttt/main/docs/image/timeline.en.png)
+![The output](https://raw.githubusercontent.com/taidalog/ttt/main/image/timeline.en.png)
 
 ## Recommended environment
 

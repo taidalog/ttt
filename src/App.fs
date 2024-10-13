@@ -1,4 +1,4 @@
-// ttt Version 0.1.0
+// ttt Version 0.2.0
 // https://github.com/taidalog/ttt
 // Copyright (c) 2024 taidalog
 // This software is licensed under the MIT License.
@@ -196,7 +196,7 @@ module App =
             [ "helpButton"; "helpClose" ]
             |> List.iter (fun x ->
                 (document.getElementById x :?> HTMLButtonElement).onclick <-
-                    fun _ -> (document.getElementById "helpWindow").classList.toggle "active")
+                    fun _ -> (document.getElementById "helpWindow").classList.toggle "active" |> ignore)
 
             // information policy window
             (document.getElementById "informationPolicyLink").onclick <-
