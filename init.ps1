@@ -14,12 +14,15 @@ dotnet add .\tests\tests.fsproj reference .\src\App.fsproj
 #     Add Fable gererated files.
 npm init -y
 # Edit package.json
+#     Add scripts.
+#     Set author and license.
+#     Add `"private": true`.
 npm install --save-dev vite
 New-Item -Name vite.config.ts -ItemType File
 # Edit vite.config.ts
 #     Add `base: '/<REPO>/'`
-#     Add `build` option
-#     Add `server.port` option
+#     Add `build` options.
+#     Add `server.port` option.
 New-Item -Name index.html -ItemType File
 New-Item -Name style.css -ItemType File
 # `dotnet fable` after cd .\src\
