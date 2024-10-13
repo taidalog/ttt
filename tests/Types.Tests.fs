@@ -1,4 +1,4 @@
-// ttt Version 0.1.0
+// ttt Version 0.2.0
 // https://github.com/taidalog/ttt
 // Copyright (c) 2024 taidalog
 // This software is licensed under the MIT License.
