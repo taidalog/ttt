@@ -48,7 +48,7 @@ YYYY-MM-DD XXXX
 
 上記のスケジュールは、以下の画像に変換される。
 
-![結果](https://raw.githubusercontent.com/taidalog/ttt/main/docs/image/timeline.ja.png)
+![結果](https://raw.githubusercontent.com/taidalog/ttt/main/image/timeline.ja.png)
 
 ## 推奨環境
 
